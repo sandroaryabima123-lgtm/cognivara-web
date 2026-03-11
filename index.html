@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COGNIVARA by BlackVault | AI Website Generator</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           FUTURISTIC UI VARIABLES & RESET
+           ========================================== */
+        :root {
+            /* Color Palette */
+            --bg-dark: #030305;
+            --bg-panel: rgba(15, 15, 20, 0.4);
+            --bg-panel-hover: rgba(20, 20, 28, 0.6);
+            --neon-cyan: #00f3ff;
+            --neon-purple: #8a2be2;
+            --neon-blue: #2b58e2;
+            
+            /* Text Colors */
+            --text-main: #f8f9fa;
+            --text-muted: #a1a1aa;
+            --text-dark: #030305;
+
+            /* Glassmorphism */
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass-border-highlight: rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --blur-high: blur(24px);
+            --blur-med: blur(12px);
+
+            /* Typography */
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+
+            /* Transitions */
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ::selection {
+            background: var(--neon-purple);
+            color: var(--text-main);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-purple);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ==========================================
+           ADVANCED BACKGROUND & MESH GRADIENTS
+           ========================================== */
+        .mesh-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: var(--bg-dark);
+            opacity: 0.8;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .orb-1 {
+            top: -10%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: var(--neon-purple);
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            bottom: -20%; right: -10%;
+            width: 60vw; height: 60vw;
+            background: var(--neon-blue);
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            top: 40%; left: 60%;
+            width: 40vw; height: 40vw;
+            background: var(--neon-cyan);
+            opacity: 0.2;
+            animation-delay: -10s;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 80%);
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5%, 10%) scale(1.1); }
+            100% { transform: translate(-5%, -5%) scale(0.9); }
+        }
+
+        /* ==========================================
+           GLASSMORPHISM UTILITIES
+           ========================================== */
+        .glass {
+            background: var(--bg-panel);
+            backdrop-filter: var(--blur-high);
+            -webkit-backdrop-filter: var(--blur-high);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-smooth);
+        }
+
+        .glass:hover {
+            border-color: var(--glass-border-highlight);
+        }
+
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 50%, var(--neon-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+        }
+
+        /* ==========================================
+           NAVIGATION
+           ========================================== */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background: rgba(3, 3, 5, 0.5);
+            backdrop-filter: var(--blur-med);
+            -webkit-backdrop-filter: var(--blur-med);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand h1 {
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand span {
+            font-size: 0.65rem;
+            color: var(--neon-cyan);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: var(--font-heading);
+            margin-top: -2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            background: var(--bg-panel);
+            padding: 10px 30px;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0; width: 0%; height: 2px;
+            background: var(--neon-cyan);
+            transition: var(--transition-smooth);
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==========================================
+           HERO SECTION
+           ========================================== */
+        .hero {
+            text-align: center;
+            padding: 180px 5% 80px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h2 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            margin-bottom: 50px;
+            max-width: 700px;
+            margin-inline: auto;
+            font-weight: 300;
+        }
+
+        .btn-glow {
+            padding: 18px 45px;
+            font-size: 1rem;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 10px 30px -10px var(--neon-purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 40px -10px var(--neon-cyan);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .btn-glow:hover::before {
+            left: 100%;
+            transition: 0.7s;
+        }
+
+        /* ==========================================
+           GENERATOR SECTION
+           ========================================== */
+        .generator-container {
+            max-width: 1000px;
+            margin: 0 auto 120px;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(180deg, rgba(20,20,30,0.5) 0%, rgba(10,10,15,0.8) 100%);
+        }
+
+        .generator-container::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon-purple), var(--neon-cyan), transparent);
+            opacity: 0.5;
+        }
+
+        .example-prompts {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag::before {
+            content: '✨';
+            font-size: 0.8rem;
+        }
+
+        .tag:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--neon-cyan);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.1);
+        }
+
+        .input-wrapper {
+            position: relative;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            transition: var(--transition-smooth);
+        }
+
+        .input-wrapper:focus-within {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            background: #08080c;
+            border: none;
+            color: #fff;
+            padding: 25px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            font-family: var(--font-body);
+        }
+
+        textarea::placeholder {
+            color: #4a4a5a;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        #loading-indicator {
+            display: none;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0, 243, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 8px;
+            border-left: 3px solid var(--neon-cyan);
+            animation: pulse-terminal 1.5s infinite;
+        }
+
+        @keyframes pulse-terminal { 
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--neon-cyan); } 
+            50% { opacity: 0.5; text-shadow: none; } 
+        }
+
+        /* ==========================================
+           RESULT & PREVIEW PANEL
+           ========================================== */
+        .workspace {
+            display: none; /* Hidden until generated */
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            max-width: 1600px;
+            margin: 0 auto 120px;
+            padding: 0 5%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .panel {
+            display: flex;
+            flex-direction: column;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 25px;
+            background: rgba(10, 10, 15, 0.9);
+            border-bottom: 1px solid var(--glass-border);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title svg {
+            width: 18px; height: 18px;
+            color: var(--neon-purple);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Secondary Action Button (Copy) */
+        .action-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: var(--font-body);
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* SUPER PREMIUM DOWNLOAD BUTTON */
+        .download-btn {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            z-index: -1;
+            transition: opacity 0.4s ease;
+            opacity: 0;
+        }
+
+        .download-btn:hover {
+            box-shadow: 0 8px 25px rgba(0, 243, 255, 0.5);
+            transform: translateY(-2px) scale(1.05);
+            color: #fff;
+        }
+
+        .download-btn:hover::before {
+            opacity: 1;
+        }
+
+        .download-btn svg {
+            width: 16px; height: 16px;
+            fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .code-viewer {
+            height: 650px;
+            background: #0d0d12;
+            padding: 25px;
+            overflow-y: auto;
+            color: #a6accd;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .preview-frame {
+            width: 100%;
+            height: 650px;
+            border: none;
+            background: #ffffff; /* White background for correct HTML rendering */
+        }
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--neon-cyan);
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+        }
+
+        .pulse-dot {
+            width: 8px; height: 8px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-cyan);
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        @keyframes pulse-dot { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 243, 255, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 243, 255, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 243, 255, 0); } }
+
+        /* ==========================================
+           FEATURES SECTION
+           ========================================== */
+        .features {
+            max-width: 1200px;
+            margin: 0 auto 120px;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .feature-card {
+            padding: 50px 40px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(20,20,30,0.6) 0%, rgba(10,10,15,0.9) 100%);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-color: rgba(138, 43, 226, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 50px; height: 50px;
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 25px;
+            color: var(--neon-cyan);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        .feature-card h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* ==========================================
+           ABOUT & CREATOR SECTION
+           ========================================== */
+        .about {
+            max-width: 800px;
+            margin: 0 auto 120px;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .about p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .creator-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 25px;
+            padding: 25px 40px;
+            background: rgba(10, 10, 15, 0.8);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .creator-card::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-purple));
+        }
+
+        /* CYBER AVATAR */
+        .cyber-avatar {
+            position: relative;
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            background: #0d0d12;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .cyber-avatar::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            border: 2px dashed var(--neon-cyan);
+            animation: spin 10s linear infinite;
+        }
+
+        .cyber-avatar svg {
+            width: 35px; height: 35px;
+            color: var(--neon-purple);
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .creator-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .creator-info p {
+            margin: 0; font-size: 0.95rem; color: var(--text-muted);
+        }
+
+        .creator-info strong {
+            color: #fff;
+            font-family: var(--font-heading);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        #ui-creator-name {
+            color: var(--neon-cyan);
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* ==========================================
+           FOOTER
+           ========================================== */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 10;
+            background: rgba(3, 3, 5, 0.8);
+        }
+
+        footer span {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* ==========================================
+           RESPONSIVE DESIGN
+           ========================================== */
+        @media (max-width: 900px) {
+            .workspace { grid-template-columns: 1fr; }
+            .hero h2 { font-size: 3rem; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero { padding: 150px 5% 50px; }
+            .creator-card { flex-direction: column; text-align: center; }
+            .creator-card::after { width: 100%; height: 4px; top: 0; left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mesh-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <nav id="home">
+        <div class="brand">
+            <h1 id="ui-site-name">COGNIVARA</h1>
+            <span id="ui-company-name">by BlackVault</span>
+        </div>
+        <button class="mobile-menu-btn">☰</button>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#generator">Generator</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h2>Synthesize Web UI With <br><span class="text-gradient">Pure Imagination</span></h2>
+        <p>Experience the future of web architecture. Describe your vision, and our DeepSeek-powered engine will instantly compile a complete, responsive, production-ready environment.</p>
+        <button class="btn-glow" onclick="document.getElementById('generator').scrollIntoView({behavior: 'smooth'})">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            Initialize Engine
+        </button>
+    </section>
+
+    <section id="generator" class="generator-container glass">
+        <div class="example-prompts">
+            <span class="tag" onclick="setPrompt(this.innerText)">Create a portfolio website for a photographer with a dark theme</span>
+            <span class="tag" onclick="setPrompt(this.innerText)">Create a modern landing page for a coffee shop</span>
+            <span class="tag" onclick="setPrompt(this.innerText)">Design a futuristic SaaS dashboard layout</span>
+        </div>
+        
+        <div class="input-wrapper">
+            <textarea id="prompt-input" placeholder="Describe the neural parameters of your UI... (e.g., A luxury watch e-commerce landing page with gold accents and smooth scroll)"></textarea>
+        </div>
+        
+        <div class="controls">
+            <span id="loading-indicator">> _ Synthesizing Code... Executing Neural Pathways...</span>
+            <button class="btn-glow" id="generate-btn" onclick="handleGenerate()">Compile Architecture</button>
+        </div>
+    </section>
+
+    <section id="workspace" class="workspace">
+        <div class="panel glass">
+            <div class="panel-header">
+                <div class="header-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    Source Code Sandbox
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn" onclick="copyCode()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        Copy
+                    </button>
+                    <button class="action-btn download-btn" onclick="downloadHTML()">
+                        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download HTML
+                    </button>
+                </div>
+            </div>
+            <div id="code-viewer" class="code-viewer"></div>
+        </div>
+
+        <div class="panel glass">
+            <div class="panel-header">
+                <div class="header-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    Environment Render
+                </div>
+                <div class="live-status">
+                    <span class="pulse-dot"></span> Live Render
+                </div>
+            </div>
+            <iframe id="preview-frame" class="preview-frame"></iframe>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="feature-card glass">
+            <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <h3>Cognitive Generation</h3>
+            <p>Powered by advanced LLMs to construct semantic HTML, precise CSS styling, and logic simultaneously in a single computational sweep.</p>
+        </div>
+        <div class="feature-card glass">
+            <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            </div>
+            <h3>Zero-Latency Build</h3>
+            <p>No waiting for modular builds or complex deployment pipelines. Retrieve a complete, single-file deployable asset in mere seconds.</p>
+        </div>
+        <div class="feature-card glass">
+            <div class="feature-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </div>
+            <h3>Isolated Sandbox</h3>
+            <p>Experience your generated interface instantly in a secure, high-fidelity isolated iframe environment built directly into the dashboard.</p>
+        </div>
+    </section>
+
+    <section id="about" class="about glass">
+        <h2 class="text-gradient" style="font-size: 3rem; margin-bottom: 25px;">Engineered for the Future</h2>
+        <p>Cognivara represents the absolute pinnacle of automated web architecture. By interpreting raw natural language through complex neural pathways, it completely obliterates the gap between human imagination and deployable code.</p>
+        
+        <div class="creator-card">
+            <div class="cyber-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                    <path d="M12 11v2"></path>
+                    <path d="M10 13h4"></path>
+                </svg>
+            </div>
+            <div class="creator-info">
+                <p><strong>System Architect:</strong> <span id="ui-creator-name">Creator Name</span></p>
+                <p><strong>Product Line:</strong> <span id="ui-product-line">Product Line</span></p>
+                <p style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                    <strong>Status:</strong> 
+                    <span class="pulse-dot" style="width: 6px; height: 6px;"></span>
+                    <span style="color: var(--neon-cyan);">System Online</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; <span id="current-year"></span> <span id="footer-site-name">Cognivara</span>. Engineered by <span id="footer-company-name">BlackVault</span>. <br><span style="font-size: 0.8rem; margin-top: 10px; display: inline-block; opacity: 0.5;">All neural systems operational.</span></p>
+    </footer>
+
+    <script>
+        // ==========================================
+        // ⚠️ VARIABLES THAT THE DEVELOPER MUST EDIT ⚠️
+        // ==========================================
+        
+        // CHANGE_THIS_BACKEND_URL
+        const BACKEND_API_URL = "/api/generate";
+        
+        // CHANGE_THIS_SITE_NAME
+        const SITE_NAME = "Cognivara"; 
+        
+        // CHANGE_THIS_CREATOR_NAME
+        const CREATOR_NAME = "Sandro Arya Bima"; 
+        
+        // CHANGE_THIS_COMPANY_NAME
+        const COMPANY_NAME = "BlackVault"; 
+        
+        // ==========================================
+        // END OF EDITABLE VARIABLES
+        // ==========================================
+
+        // Initialize UI with Variables
+        document.getElementById('ui-site-name').innerText = SITE_NAME.toUpperCase();
+        document.getElementById('ui-company-name').innerText = `by ${COMPANY_NAME}`;
+        document.getElementById('ui-creator-name').innerText = CREATOR_NAME;
+        document.getElementById('ui-product-line').innerText = `${SITE_NAME} by ${COMPANY_NAME}`;
+        document.getElementById('footer-site-name').innerText = SITE_NAME;
+        document.getElementById('footer-company-name').innerText = COMPANY_NAME;
+        document.getElementById('current-year').innerText = new Date().getFullYear();
+
+        // DOM Elements
+        const promptInput = document.getElementById('prompt-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const workspace = document.getElementById('workspace');
+        const codeViewer = document.getElementById('code-viewer');
+        const previewFrame = document.getElementById('preview-frame');
+
+        // State
+        let generatedHTMLContent = "";
+
+        // Helper: Set prompt from examples
+        function setPrompt(text) {
+            promptInput.value = text;
+        }
+
+        // Main Generation Function
+        async function handleGenerate() {
+            const prompt = promptInput.value.trim();
+            if (!prompt) {
+                alert("Please enter a prompt first.");
+                return;
+            }
+
+            // UI Loading State
+            generateBtn.style.display = 'none';
+            loadingIndicator.style.display = 'block';
+            workspace.style.display = 'none';
+
+            try {
+                // Connect to Backend Endpoint
+                const response = await fetch(BACKEND_API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.html) {
+                    generatedHTMLContent = data.html;
+                    
+                    // Escape HTML for the code viewer so it displays as text
+                    codeViewer.textContent = generatedHTMLContent;
+                    
+                    // Inject directly into iframe for live preview
+                    previewFrame.srcdoc = generatedHTMLContent;
+                    
+                    // Reveal Workspace
+                    workspace.style.display = 'grid';
+                    workspace.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    alert("Error: No HTML returned from server.");
+                }
+
+            } catch (error) {
+                console.error("Generation Failed:", error);
+                alert("Connection to backend failed. Make sure your local server is running. Check console for details.");
+            } finally {
+                // Reset UI State
+                generateBtn.style.display = 'inline-flex';
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Utility: Copy to Clipboard
+        function copyCode() {
+            if (!generatedHTMLContent) return;
+            navigator.clipboard.writeText(generatedHTMLContent).then(() => {
+                alert("Source code copied to clipboard!");
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Utility: Download HTML File
+        function downloadHTML() {
+            if (!generatedHTMLContent) return;
+            
+            const blob = new window.Blob([generatedHTMLContent], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cognivara-build-${Date.now()}.html`;
+            document.body.appendChild(a);
+            a.click();
+            
+            // Cleanup
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
